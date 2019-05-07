@@ -117,3 +117,6 @@
   background-image: linear-gradient(unquote($direction), $stops)
 
 @import stagger
+
+@function v($var,$unit: px)
+  @return calc(var(—-$var) *1#{$unit})
