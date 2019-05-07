@@ -1,0 +1,119 @@
+@import var
+@import media
+
+=horizontal-list
+  list-style-type: none
+  margin: 0
+  padding: 0
+
+  li
+    display: inline-block
+
+=full-size
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+=full-size-absolute
+  +full-size
+  position: absolute
+
+=full-size-fixed
+  +full-size
+  position: fixed
+
+=content-width
+  max-width: $grid-width
+  width: 100%
+  padding: 0 12rem
+
+  +medium
+    max-width: 100%
+    padding: 0 $margin-mid
+
+  +small
+    padding: 0 $margin-small
+
+=hidden
+  opacity: 0
+  pointer-events: none
+
+=unhidden
+  opacity: 1
+  transform: none
+  pointer-events: auto
+
+=scrollable
+  overflow-y: auto
+  -webkit-overflow-scrolling: touch
+
+=hover
+  html:not(.mobile):not(.tablet) &
+    &:hover
+      @content
+
+=focused
+  +hover
+    @content
+  &:focus
+    @content
+
+=scroll-height-auto
+  height: auto
+  height: var(--scroll-height, auto)
+
+=shadow($color, $percentage: 40%, $length: 2.5vh)
+  box-shadow: $length $length $length*2 darken($color, $percentage)
+
+=background-blur($color, $blur, $blurOpacity, $opacity: 1)
+  background-color: transparentize($color, 1 - $opacity)
+
+  @supports (-webkit-backdrop-filter: blur($blur))
+    -webkit-backdrop-filter: blur($blur)
+    background-color: transparentize($color, 1 - $blurOpacity)
+
+=flex-center($direction: column)
+  display: flex
+  flex-direction: $direction
+  justify-content: center
+  align-items: center
+
+=flex-space($direction: row)
+  display: flex
+  flex-direction: $direction
+  justify-content: space-between
+  align-items: center
+
+=type-min-max($size, $direction, $max-px, $min-px: 1px)
+  font-size: $size + $direction
+
+  @media screen and (min-width: $max-px / $size * 100)
+    font-size: $max-px
+
+  @media screen and (max-width: $min-px / $size * 100)
+    font-size: $min-px
+
+// http://alistapart.com/article/using-css-mod-queries-with-range-selectors
+// mod query mixin
+=mod-list($mod, $remainder)
+  &:nth-last-child(#{$mod}n+#{$remainder}):first-child,
+  &:nth-last-child(#{$mod}n+#{$remainder}):first-child ~ li
+    @content
+
+// Scrim gradient from https://codepen.io/joeyquarters/pen/dWJYdV
+=scrim($color: black, $direction: 'to bottom')
+  $scrimCoordinates: (0: 1, 19: 0.738, 34: 0.541, 47: 0.382, 56.5: 0.278, 65: 0.194, 73: 0.126, 80.2: 0.075, 86.1: 0.042, 91: 0.021, 95.2: 0.008, 98.2: 0.002, 100: 0)
+
+  $hue: hue($color)
+  $saturation: saturation($color)
+  $lightness: lightness($color)
+  $stops: ()
+
+  @each $colorStop, $alphaValue in $scrimCoordinates
+    $stop: hsla($hue, $saturation, $lightness, $alphaValue) percentage($colorStop/100)
+    $stops: append($stops, $stop, comma)
+
+  background-image: linear-gradient(unquote($direction), $stops)
+
+@import stagger

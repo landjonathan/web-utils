@@ -1,0 +1,83 @@
+@import var
+
+// sizes
+
+$small: 767px
+$medium: 1023px
+$large: 1920px
+
+// queries
+
+=small
+  @media screen and (max-width: $small)
+    @content
+
+=not-small
+  @media screen and (min-width: $small + 1)
+    @content
+
+=medium
+  @media screen and (max-width: $medium)
+    @content
+
+=large
+  @media screen and (min-width: $medium + 1)
+    @content
+
+=huge
+  @media screen and (min-width: $large + 1)
+    @content
+
+=portrait
+  @media screen and (orientation: portrait)
+    @content
+
+=landscape
+  @media screen and (orientation: landscape)
+    @content
+
+=portrait-or-small
+  @media screen and (orientation: portrait), (max-width: $small)
+    @content
+
+=portrait-medium
+  @media screen and (orientation: portrait) and (min-width: $small) and (max-width: $medium)
+    @content
+
+=landscape-medium
+  @media screen and (orientation: landscape) and (min-width: $small) and (max-width: $medium)
+    @content
+
+=device-phone
+  html.mobile &
+    @content
+
+=device-tablet
+  html.tablet &
+    @content
+
+=device-desktop
+  html.desktop &
+    @content
+
+=device-mobile
+  html.mobile &
+    @content
+
+  html.tablet &
+    @content
+
+=device-portrait-device
+  html.mobile &
+    @content
+
+  html.tablet.portrait &
+    @content
+
+=device-tablet-portrait
+  html.tablet.portrait &
+    @content
+
+=device-tablet-landscape
+  html.tablet.landscape &
+    @content

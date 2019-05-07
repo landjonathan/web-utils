@@ -1,0 +1,27 @@
+=stagger($count, $step, $base: 0s, $easing: true, $ease-factor: 0.33, $reverse: false, $data-index: false, $type: transition, $child: '')
+
+  $start: 1
+  $end: $count
+
+  @if ($easing == false)
+    $ease-factor: 0
+
+  @if ($data-index == true)
+    $data-index: data-stagger-index
+  @else
+    $data-index: unquote($data-index)
+
+  //& #{unquote($child)} // maybe: default to max
+
+  @for $i from $start through $end
+    @if ($data-index)
+      &[#{$data-index}="#{$i}"] #{unquote($child)}
+        #{$type}-delay: #{($i - ($i - 1) * $ease-factor) * $step + $base}
+
+    @else if ($reverse)
+      &:nth-last-child(#{$i}) #{unquote($child)}
+        #{$type}-delay: #{($i - ($i - 1) * $ease-factor) * $step + $base}
+
+    @else
+      &:nth-child(#{$i}) #{unquote($child)}
+        #{$type}-delay: #{($i - ($i - 1) * $ease-factor) * $step + $base}

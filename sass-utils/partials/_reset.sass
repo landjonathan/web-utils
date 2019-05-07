@@ -1,0 +1,56 @@
+@import mixin
+
+html
+  box-sizing: border-box
+  font-size: 1px
+
+*, *:before, *:after
+  box-sizing: inherit
+
+body
+  margin: 0
+  font-size: 16rem
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+ul
+  margin: 0
+  padding: 0
+
+nav,
+form
+  a
+    text-decoration: none
+    color: currentColor
+
+  ul
+    +horizontal-list
+
+h1,h2,h3,h4,h5,h6
+  line-height: 1
+  margin: 0
+  font-weight: inherit
+  font-size: 1em
+
+p
+  margin: 0
+
+input, textarea, button
+  font-family: inherit
+  color: inherit
+
+button
+  cursor: pointer
+  border: none
+  margin: 0
+  padding: 0
+  width: auto
+  overflow: visible
+  background: transparent
+  font: inherit
+  outline: none
+  display: block
+  line-height: normal
+  -webkit-font-smoothing: inherit
+  -moz-osx-font-smoothing: inherit
+  -webkit-appearance: none
