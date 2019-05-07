@@ -1,0 +1,19 @@
+{
+  "name": "web-utils",
+  "version": "0.0.1",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StudioPraktik/web-utils.git"
+  },
+  "author": "Jonathan Land",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/StudioPraktik/web-utils/issues"
+  },
+  "homepage": "https://github.com/StudioPraktik/web-utils#readme"
+}
