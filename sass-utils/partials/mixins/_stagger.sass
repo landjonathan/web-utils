@@ -8,7 +8,7 @@
 
   @if ($data-index == true)
     $data-index: data-stagger-index
-  @else
+  @else if($data-index != false)
     $data-index: unquote($data-index)
 
   //& #{unquote($child)} // maybe: default to max
