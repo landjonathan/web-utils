@@ -1,0 +1,25 @@
+=full-size
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+=full-size-absolute
+  +full-size
+  position: absolute
+
+=full-size-fixed
+  +full-size
+  position: fixed
+
+=flex-center($direction: column)
+  display: flex
+  flex-direction: $direction
+  justify-content: center
+  align-items: center
+
+=flex-space($direction: row)
+  display: flex
+  flex-direction: $direction
+  justify-content: space-between
+  align-items: center

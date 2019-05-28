@@ -1,0 +1,8 @@
+=type-min-max($size, $direction, $max-px, $min-px: 1px)
+  font-size: $size + $direction
+
+  @media screen and (min-width: $max-px / $size * 100)
+    font-size: $max-px
+
+  @media screen and (max-width: $min-px / $size * 100)
+    font-size: $min-px

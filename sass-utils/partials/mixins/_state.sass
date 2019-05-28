@@ -1,0 +1,10 @@
+=hover
+  html:not(.mobile):not(.tablet) &
+    &:hover
+      @content
+
+=focused
+  +hover
+    @content
+  &:focus
+    @content
