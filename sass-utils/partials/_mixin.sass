@@ -26,7 +26,7 @@
 =content-width
   max-width: $grid-width
   width: 100%
-  padding: 0 12rem
+  padding: 0 1.2rem // todo set var
 
   +medium
     max-width: 100%
@@ -119,4 +119,4 @@
 @import stagger
 
 @function v($var,$unit: px)
-  @return calc(var(—-$var) *1#{$unit})
+  @return calc(var(—-#{$var}) * #{1 + $unit})
