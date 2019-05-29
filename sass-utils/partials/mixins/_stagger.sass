@@ -1,27 +1,48 @@
-=stagger($count, $step, $base: 0s, $easing: true, $ease-factor: 0.33, $reverse: false, $data-index: false, $type: transition, $child: '')
+// private utils
+
+@function -stagger-delay-value($calc, $i, $ease-factor, $step, $base)
+  @if ($calc)
+    @return calc(#{$i - ($i - 1) * $ease-factor} * #{$step} + #{$base})
+  @else
+    @return #{($i - ($i - 1) * $ease-factor) * $step + $base}
+
+=-stagger-delay-property($type, $calc, $i, $ease-factor, $step, $base)
+  #{$type}-delay: -stagger-delay-value($calc, $i, $ease-factor, $step, $base)
+
+=-stagger-child-selector($data, $reverse, $i, $child)
+  @if ($data)
+    &[#{$data}="#{$i}"] #{unquote($child)}
+      @content
+
+  @else if ($reverse)
+    &:nth-last-child(#{$i}) #{unquote($child)}
+      @content
+
+  @else
+    &:nth-child(#{$i}) #{unquote($child)}
+      @content
+
+
+
+
+// public mixin
+
+=stagger($count, $step, $base: 0s, $reverse: false, $data: false, $type: transition, $child: '', $linear: false, $ease-factor: 0.33, $calc: false)
 
   $start: 1
-  $end: $count
 
-  @if ($easing == false)
+  @if ($linear)
     $ease-factor: 0
 
-  @if ($data-index == true)
-    $data-index: data-stagger-index
-  @else if($data-index != false)
-    $data-index: unquote($data-index)
+  @if ($data == true)
+    $data: data-stagger-index
+  @else if ($data != false)
+    $data: data- + unquote($data)
 
-  //& #{unquote($child)} // maybe: default to max
+  // default to max ( $count )
+  +-stagger-delay-property($type, $calc, $count, $ease-factor, $step, $base)
 
-  @for $i from $start through $end
-    @if ($data-index)
-      &[#{$data-index}="#{$i}"] #{unquote($child)}
-        #{$type}-delay: #{($i - ($i - 1) * $ease-factor) * $step + $base}
-
-    @else if ($reverse)
-      &:nth-last-child(#{$i}) #{unquote($child)}
-        #{$type}-delay: #{($i - ($i - 1) * $ease-factor) * $step + $base}
-
-    @else
-      &:nth-child(#{$i}) #{unquote($child)}
-        #{$type}-delay: #{($i - ($i - 1) * $ease-factor) * $step + $base}
+  // loop children and set property
+  @for $i from $start through $count
+    +-stagger-child-selector($data, $reverse, $i, $child)
+      +-stagger-delay-property($type, $calc, $i, $ease-factor, $step, $base)
