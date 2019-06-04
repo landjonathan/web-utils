@@ -11,10 +11,8 @@
   list-style-type: none
   margin: 0
   padding: 0
-
-  li
-    display: inline-block
-
+  display: flex
+  align-items: center
 
 =content-width
   max-width: $grid-width
@@ -64,3 +62,15 @@
 
 @function v($var,$unit: px)
   @return calc(var(—-#{$var}) * #{1 + $unit})
+
+=overlay($opacity: 1, $color: #000, $before: false)
+  $selector: after
+  @if ($before)
+    $selector: before
+
+  &:#{$selector}
+    content: ''
+    +full-size-absolute
+    z-index: 1
+    opacity: $opacity
+    background-color: $color
