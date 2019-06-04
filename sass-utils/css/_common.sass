@@ -1,0 +1,62 @@
+@import ../partials/index
+
+html
+  font-size: 10px
+
+  +huge
+    font-size: 12.5px
+
+body
+  font-size: 1.6rem
+
+nav,
+form
+  a
+    text-decoration: none
+    color: currentColor
+
+  ul
+    +horizontal-list
+
+img, svg
+  width: 100%
+  height: auto
+
+section,
+article,
+main
+  position: relative
+  transition: $transition-quick
+
+.hidden
+  +hidden
+
+.bg
+  z-index: -1
+  border-radius: inherit
+  transition: inherit
+  pointer-events: none
+  +full-size-absolute
+
+.bg-image
+  pointer-events: none
+  +full-size-absolute
+  z-index: 0
+  background:
+    size: cover
+    position: center
+    repeat: no-repeat
+
+  &.behind
+    z-index: -1
+
+@for $i from 1 through 12
+  .col-#{$i}
+    +grid-width($i)
+
+main.content
+  +content-width
+  margin: 0 auto
+
+  &.flex
+    +flex-space
