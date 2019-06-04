@@ -63,7 +63,7 @@
 @function v($var,$unit: px)
   @return calc(var(—-#{$var}) * #{1 + $unit})
 
-=overlay($opacity: 1, $color: #000, $before: false)
+=overlay($opacity: 1, $color: #000, $before: false, $blend-mode: normal)
   $selector: after
   @if ($before)
     $selector: before
@@ -74,3 +74,4 @@
     z-index: 1
     opacity: $opacity
     background-color: $color
+    mix-blend-mode: $blend-mode
