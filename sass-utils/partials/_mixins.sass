@@ -76,6 +76,10 @@
     background-color: $color
     mix-blend-mode: $blend-mode
 
+=gradient-map($color, $color-bottom: $color, $top-blend-mode: multiply, $bottom-blend-mode: screen)
+  +overlay($color: $color, $blend-mode: $top-blend-mode)
+  +overlay($color: $color-bottom, $blend-mode: $bottom-blend-mode, $before: true)
+
 =hover-dim($dim-opacity: 0.5, $full-opacity: 1)
   pointer-events: none
 
