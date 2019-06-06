@@ -75,3 +75,16 @@
     opacity: $opacity
     background-color: $color
     mix-blend-mode: $blend-mode
+
+=hover-dim($dim-opacity: 0.5, $full-opacity: 1)
+  pointer-events: none
+
+  +hover
+    > *
+      opacity: $dim-opacity
+
+  > *
+    pointer-events: auto
+
+    +hover
+      opacity: $full-opacity
