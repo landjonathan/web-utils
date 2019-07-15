@@ -63,7 +63,7 @@
 @function v($var,$unit: px)
   @return calc(var(—-#{$var}) * #{1 + $unit})
 
-=overlay($opacity: 1, $color: #000, $before: false, $blend-mode: normal)
+=overlay($opacity: 1, $color: #000, $image: false, $before: false, $blend-mode: normal)
   $selector: after
   @if ($before)
     $selector: before
@@ -73,8 +73,11 @@
     +full-size-absolute
     z-index: 1
     opacity: $opacity
-    background-color: $color
     mix-blend-mode: $blend-mode
+    @if ($image)
+      background-image: $image
+    @else
+      background-color: $color
 
 =gradient-map($color, $color-bottom: $color, $top-blend-mode: multiply, $bottom-blend-mode: screen)
   +overlay($color: $color, $blend-mode: $top-blend-mode)
