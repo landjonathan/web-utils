@@ -78,9 +78,10 @@ main
   .col-#{$i}
     +grid-width($i)
 
-main.content
-  +content-width
-  margin: 0 auto
+main, section, article
+  &.content
+    +content-width
+    margin: 0 auto
 
-  &.flex
-    +flex-space
+    &.flex
+      +flex-space
