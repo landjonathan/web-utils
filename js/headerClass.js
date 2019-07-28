@@ -22,4 +22,5 @@ const headerClass = (
     $siteHeader.classList.toggle('initial', window.scrollY <= threshold)
   }
   windowListeners.scroll.push(setHeaderClass)
+  setHeaderClass()
 }
