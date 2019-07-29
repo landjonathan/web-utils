@@ -11,15 +11,15 @@
 
 =-stagger-child-selector($data, $reverse, $i, $child)
   @if ($data)
-    &[#{$data}="#{$i}"] #{unquote($child)}
+    &[#{$data}="#{$i}"]#{$child}
       @content
 
   @else if ($reverse)
-    &:nth-last-child(#{$i}) #{unquote($child)}
+    &:nth-last-child(#{$i})#{$child}
       @content
 
   @else
-    &:nth-child(#{$i}) #{unquote($child)}
+    &:nth-child(#{$i})#{$child}
       @content
 
 
@@ -27,7 +27,7 @@
 
 // public mixin
 
-=stagger($count, $step, $base: 0s, $reverse: false, $data: false, $type: transition, $child: '', $linear: false, $ease-factor: 0.33, $calc: false)
+=stagger($count, $step, $base: 0s, $reverse: false, $data: false, $type: transition, $child: '', $linear: false, $ease-factor: 0.33, $calc: false, $pseudo: false)
 
   $start: 1
 
@@ -39,8 +39,19 @@
   @else if ($data != false)
     $data: data- + unquote($data)
 
+  @if ($pseudo == 'before')
+    $child: ':before'
+  @else if ($pseudo == 'after')
+    $child: ':after'
+  @else
+    $child: #{unquote(' ') unquote($child)}
+
   // default to max ( $count )
-  +-stagger-delay-property($type, $calc, $count, $ease-factor, $step, $base)
+  @if $child
+    &#{$child}
+      +-stagger-delay-property($type, $calc, $count, $ease-factor, $step, $base)
+  @else
+    +-stagger-delay-property($type, $calc, $count, $ease-factor, $step, $base)
 
   // loop children and set property
   @for $i from $start through $count
