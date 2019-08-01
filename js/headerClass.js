@@ -9,9 +9,10 @@ const headerClass = (
   let $thresholdElement = document.querySelector(`[${thresholdMarker}]`)
   let threshold =
     $thresholdElement
-      ? document
-        .querySelector('[data-site-header-threshold]')
+      ? $thresholdElement
         .getBoundingClientRect().top
+      - $siteHeader
+        .clientHeight
       + document
         .documentElement
         .scrollTop
