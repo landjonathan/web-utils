@@ -76,6 +76,10 @@ main
     width: 100%
     height: 100%
 
+    +browser-edge
+      width: 100%
+      height: auto
+
 @for $i from 1 through 12
   .col-#{$i}
     +grid-width($i)

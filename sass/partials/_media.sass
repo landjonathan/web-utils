@@ -81,3 +81,11 @@ $large: 1920px
 =device-tablet-landscape
   html.tablet.landscape &
     @content
+
+=browser-edge
+  @supports (-ms-ime-align: auto)
+    @content
+
+=browser-not-edge
+  @supports not (-ms-ime-align: auto)
+    @content
