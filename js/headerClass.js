@@ -4,21 +4,25 @@ const headerClass = (
   toggleAdd = false,
   thresholdMarker = 'data-site-header-threshold',
   thresholdOffset = 0,
+  thresholdBottom = false,
+  afterThreshold = false
 ) => {
   let $siteHeader = document.getElementById(headerId)
   if (!$siteHeader) return false
 
   let $thresholdElement = document.querySelector(`[${thresholdMarker}]`)
+  const offsetPosition = thresholdBottom ? 'bottom' : 'top'
+  const offest = afterThreshold ? 0 : $siteHeader.clientHeight
   let threshold =
     $thresholdElement
       ? $thresholdElement
-        .getBoundingClientRect().top
-      - $siteHeader
-        .clientHeight
+        .getBoundingClientRect()[offsetPosition]
+      - offest
       + document
         .documentElement
         .scrollTop
       + thresholdOffset
+
       : thresholdOffset
   console.log(threshold)
 
