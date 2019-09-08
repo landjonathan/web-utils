@@ -24,7 +24,6 @@ const headerClass = (
       + thresholdOffset
 
       : thresholdOffset
-  console.log(threshold)
 
   const setHeaderClass = () => {
     const force = toggleAdd ? window.scrollY >= threshold : window.scrollY <= threshold
