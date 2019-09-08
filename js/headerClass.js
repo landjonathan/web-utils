@@ -1,5 +1,7 @@
 const headerClass = (
   headerId = 'site-header',
+  toggeleClass = 'initial',
+  toggleAdd = false,
   thresholdMarker = 'data-site-header-threshold',
   thresholdOffset = 0,
 ) => {
@@ -18,9 +20,11 @@ const headerClass = (
         .scrollTop
       + thresholdOffset
       : thresholdOffset
+  console.log(threshold)
 
   const setHeaderClass = () => {
-    $siteHeader.classList.toggle('initial', window.scrollY <= threshold)
+    const force = toggleAdd ? window.scrollY >= threshold : window.scrollY <= threshold
+    $siteHeader.classList.toggle(toggeleClass, force)
   }
   windowListeners.scroll.push(setHeaderClass)
   setHeaderClass()
