@@ -46,11 +46,11 @@
 =shadow($color, $percentage: 40%, $length: 2.5vh)
   box-shadow: $length $length $length*2 darken($color, $percentage)
 
-=background-blur($color, $blur, $blurOpacity, $opacity: 1)
+=background-blur($color, $blur, $blurOpacity, $opacity: 1, $filters: saturate(1.8))
   background-color: transparentize($color, 1 - $opacity)
 
-  @supports (-webkit-backdrop-filter: blur($blur))
-    -webkit-backdrop-filter: blur($blur)
+  @supports (backdrop-filter: blur($blur))
+    backdrop-filter: blur($blur) $filters
     background-color: transparentize($color, 1 - $blurOpacity)
 
 // http://alistapart.com/article/using-css-mod-queries-with-range-selectors
