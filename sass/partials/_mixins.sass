@@ -46,12 +46,20 @@
 =shadow($color, $percentage: 40%, $length: 2.5vh)
   box-shadow: $length $length $length*2 darken($color, $percentage)
 
-=background-blur($color, $blur, $blurOpacity, $opacity: 1, $filters: saturate(1.8))
-  background-color: transparentize($color, 1 - $opacity)
+=background-blur($color, $blur, $blurOpacity, $opacity: 1, $filters: saturate(1.4), $set-opacity:false)
+  @if $set-opacity
+    background-color: $color
+    opacity: $opacity
+  @else
+    background-color: transparentize($color, 1 - $opacity)
 
   @supports (backdrop-filter: blur($blur))
     backdrop-filter: blur($blur) $filters
-    background-color: transparentize($color, 1 - $blurOpacity)
+    @if $set-opacity
+      background-color: $color
+      opacity: $blurOpacity
+    @else
+      background-color: transparentize($color, 1 - $blurOpacity)
 
 // http://alistapart.com/article/using-css-mod-queries-with-range-selectors
 // mod query mixins
