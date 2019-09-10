@@ -61,6 +61,14 @@
     @else
       background-color: transparentize($color, 1 - $blurOpacity)
 
+  @supports (-webkit-backdrop-filter: blur($blur))
+    -webkit-backdrop-filter: blur($blur) $filters
+    @if $set-opacity
+      background-color: $color
+      opacity: $blurOpacity
+    @else
+      background-color: transparentize($color, 1 - $blurOpacity)
+
 // http://alistapart.com/article/using-css-mod-queries-with-range-selectors
 // mod query mixins
 =mod-list($mod, $remainder)
