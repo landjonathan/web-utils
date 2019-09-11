@@ -73,6 +73,7 @@ const hashScroll = () => {
   // handle hash  URL on page load
   if (location.hash) {
     const $target = document.getElementById(location.hash.replace('#', ''));
+    if (!$target) return false
     scrollToTarget($target)
     handeAnchorToggle($target)
   }
