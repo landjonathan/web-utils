@@ -13,8 +13,10 @@ const headerClass = (
   let $thresholdElement = document.querySelector(`[${thresholdMarker}]`)
   const offsetPosition = thresholdBottom ? 'bottom' : 'top'
   const offest = afterThreshold ? 0 : $siteHeader.clientHeight
-  let threshold =
-    $thresholdElement
+  let threshold
+  const setThreshold = () =>
+    threshold =
+      $thresholdElement
       ? $thresholdElement
         .getBoundingClientRect()[offsetPosition]
       - offest
@@ -25,10 +27,12 @@ const headerClass = (
 
       : thresholdOffset
 
+  setThreshold()
   const setHeaderClass = () => {
     const force = toggleAdd ? window.scrollY >= threshold : window.scrollY <= threshold
     $siteHeader.classList.toggle(toggeleClass, force)
   }
   windowListeners.scroll.push(setHeaderClass)
+  windowListeners.resize.push(setThreshold)
   setHeaderClass()
 }
