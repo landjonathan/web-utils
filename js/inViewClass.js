@@ -1,4 +1,9 @@
-const inViewClass = (dataString = 'data-in-view-class', defaultClassName = 'in-view') => {
+const inViewClass = (
+  {
+    dataString = 'data-in-view-class',
+    defaultClassName = 'in-view',
+  } = {},
+) => {
   const observer = new IntersectionObserver(entries =>
     entries.forEach(entry => {
       if (entry.isIntersecting)
