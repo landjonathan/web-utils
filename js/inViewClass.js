@@ -1,16 +1,18 @@
 const inViewClass = (
   {
-    dataString = 'data-in-view-class',
+    dataIdentifier = 'data-in-view-class',
     defaultClassName = 'in-view',
+    rootMargin = '-1px',
+    threshold = .25
   } = {},
 ) => {
   const observer = new IntersectionObserver(entries =>
     entries.forEach(entry => {
       if (entry.isIntersecting)
-        entry.target.classList.add(entry.target.getAttribute(dataString) || defaultClassName)
-    }), { rootMargin: '-1px', threshold: .25 })
+        entry.target.classList.add(entry.target.getAttribute(dataIdentifier) || defaultClassName)
+    }), { rootMargin, threshold })
 
-  document.querySelectorAll(`[${dataString}]`).forEach($el => {
+  document.querySelectorAll(`[${dataIdentifier}]`).forEach($el => {
     observer.observe($el)
   })
 }
