@@ -89,3 +89,12 @@ $large: 1920px
 =browser-not-edge
   @supports not (-ms-ime-align: auto)
     @content
+
+=browser-firefox
+  @-moz-document url-prefix()
+    @content
+
+=browser-safari
+  @media not all and (min-resolution: .001dpcm)
+    @supports (-webkit-appearance: none)
+      @content
