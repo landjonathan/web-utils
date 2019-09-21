@@ -1,6 +1,6 @@
 const hashScroll = () => {
-  const scrollToTarget = (targetElement, setHash = true, directions = { top: true, bottom: true }) => {
-    const headerOffset = document.querySelector('#site-header').clientHeight
+  const scrollToTarget = (targetElement, setHash = true, ignoreHeader = false, directions = { top: true, bottom: true }) => {
+    const headerOffset = ignoreHeader ? 0 : document.querySelector('#site-header').clientHeight
     const currentPosition = window.scrollY || window.pageYOffset
     const targetHeight = targetElement.getBoundingClientRect().top + currentPosition - headerOffset
     if (
@@ -34,13 +34,13 @@ const hashScroll = () => {
     }
   }
 
-  const handleHashLink = (hash, setHash) => {
+  const handleHashLink = (hash, setHash, ignoreHeader) => {
     if (hash === '#') {
       window.scrollTo({ behavior: "smooth", top: 0 })
     } else {
       const targetElement = document.querySelector(hash)
       if (targetElement)
-        scrollToTarget(targetElement, setHash)
+        scrollToTarget(targetElement, setHash, ignoreHeader)
       else
         location.assign(`${location.protocol}//${location.hostname}/${hash}`) // go to hash on homepage
 
@@ -56,7 +56,7 @@ const hashScroll = () => {
     if (linkEl) {
       let href = linkEl.getAttribute('href')
       const setHash = !linkEl.hasAttribute('data-unset-hash')
-
+      const ignoreHeader = linkEl.hasAttribute('data-ignore-header')
       // if absolute link to hash on page, set hash only
       if (href.indexOf('#') !== -1 && window.location.href.split('#')[0] === href.split('#')[0])
         href = '#' + href.split('#')[1]
@@ -64,7 +64,7 @@ const hashScroll = () => {
       if (href.indexOf('#') === 0) {
         event.preventDefault()
         window.dispatchEvent(new Event('hashClicked'))
-        handleHashLink(href, setHash)
+        handleHashLink(href, setHash, ignoreHeader)
       }
     }
   }
@@ -73,6 +73,7 @@ const hashScroll = () => {
   // handle hash  URL on page load
   if (location.hash) {
     const $target = document.getElementById(location.hash.replace('#', ''));
+    if (!$target) return false
     scrollToTarget($target)
     handeAnchorToggle($target)
   }

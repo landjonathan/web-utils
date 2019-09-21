@@ -46,12 +46,28 @@
 =shadow($color, $percentage: 40%, $length: 2.5vh)
   box-shadow: $length $length $length*2 darken($color, $percentage)
 
-=background-blur($color, $blur, $blurOpacity, $opacity: 1)
-  background-color: transparentize($color, 1 - $opacity)
+=background-blur($color, $blur, $blurOpacity, $opacity: 1, $filters: saturate(1.4), $set-opacity:false)
+  @if $set-opacity
+    background-color: $color
+    opacity: $opacity
+  @else
+    background-color: transparentize($color, 1 - $opacity)
+
+  @supports (backdrop-filter: blur($blur))
+    backdrop-filter: blur($blur) $filters
+    @if $set-opacity
+      background-color: $color
+      opacity: $blurOpacity
+    @else
+      background-color: transparentize($color, 1 - $blurOpacity)
 
   @supports (-webkit-backdrop-filter: blur($blur))
-    -webkit-backdrop-filter: blur($blur)
-    background-color: transparentize($color, 1 - $blurOpacity)
+    -webkit-backdrop-filter: blur($blur) $filters
+    @if $set-opacity
+      background-color: $color
+      opacity: $blurOpacity
+    @else
+      background-color: transparentize($color, 1 - $blurOpacity)
 
 // http://alistapart.com/article/using-css-mod-queries-with-range-selectors
 // mod query mixins
@@ -79,9 +95,9 @@
     @else
       background-color: $color
 
-=gradient-map($color, $color-bottom: $color, $top-blend-mode: multiply, $bottom-blend-mode: screen)
-  +overlay($color: $color, $blend-mode: $top-blend-mode)
-  +overlay($color: $color-bottom, $blend-mode: $bottom-blend-mode, $before: true)
+=gradient-map($color, $color-bottom: $color, $top-blend-mode: multiply, $bottom-blend-mode: screen, $opacity: 1)
+  +overlay($opacity: $opacity, $color: $color, $blend-mode: $top-blend-mode)
+  +overlay($opacity: $opacity, $color: $color-bottom, $blend-mode: $bottom-blend-mode, $before: true)
 
 =hover-dim($dim-opacity: 0.5, $full-opacity: 1)
   pointer-events: none
