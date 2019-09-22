@@ -4,7 +4,8 @@ const filterList = (
     inputIdentifier = 'data-filter-input',
     listIdentifier = 'data-filter-list',
     valueIdentifier = 'data-filter-value',
-    activeClass = 'active'
+    activeClass = 'active',
+    toLowerCase = true
   } = {},
 ) => {
   $$(`[${containerIdentifier}]`).forEach($container => {
@@ -15,9 +16,9 @@ const filterList = (
     if (!$input || !$list) return
 
     let setState = () => {
-      const inputValue = $input.value
+      const inputValue = toLowerCase ? $input.value.toLowerCase() : $input.value
       $items.forEach($item => {
-        const itemValue = $item.getAttribute(valueIdentifier)
+        const itemValue = toLowerCase ? $item.getAttribute(valueIdentifier).toLowerCase() : $item.getAttribute(valueIdentifier)
         $item.classList.toggle(activeClass, inputValue === itemValue)
       })
     }
