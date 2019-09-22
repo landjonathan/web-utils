@@ -3,6 +3,7 @@ const hashScroll = () => {
     const headerOffset = ignoreHeader ? 0 : document.querySelector('#site-header').clientHeight
     const currentPosition = window.scrollY || window.pageYOffset
     const targetHeight = targetElement.getBoundingClientRect().top + currentPosition - headerOffset
+    console.log(targetHeight, '=', targetElement.getBoundingClientRect().top, currentPosition, headerOffset)
     if (
       (directions.top && targetHeight < currentPosition) ||
       (directions.bottom && targetHeight > currentPosition)) {
@@ -74,7 +75,11 @@ const hashScroll = () => {
   if (location.hash) {
     const $target = document.getElementById(location.hash.replace('#', ''));
     if (!$target) return false
-    scrollToTarget($target)
-    handeAnchorToggle($target)
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      scrollToTarget($target)
+      handeAnchorToggle($target)
+    }, 1);
   }
 }
