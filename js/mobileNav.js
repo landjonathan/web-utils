@@ -23,8 +23,11 @@ const mobileNav = (
   })
 
   $items.forEach($item => {
-    $item.addEventListener('click', () => {
-      toggleOpen(false)
+    $item.querySelectorAll('a').forEach($a => {
+      $a.addEventListener('click', () => {
+        if (!$a.getAttribute('href')) return
+        toggleOpen(false)
+      })
     })
   })
 }
