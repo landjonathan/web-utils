@@ -56,6 +56,8 @@ const hashScroll = () => {
     const linkEl = el.matches('a') ? el : el.closest('a')
     if (linkEl) {
       let href = linkEl.getAttribute('href')
+      if (!href) return
+
       const setHash = !linkEl.hasAttribute('data-unset-hash')
       const ignoreHeader = linkEl.hasAttribute('data-ignore-header')
       // if absolute link to hash on page, set hash only
