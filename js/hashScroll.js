@@ -3,6 +3,7 @@ const hashScroll = () => {
     const headerOffset = ignoreHeader ? 0 : document.querySelector('#site-header').clientHeight
     const currentPosition = window.scrollY || window.pageYOffset
     const targetHeight = targetElement.getBoundingClientRect().top + currentPosition - headerOffset
+    console.log(targetHeight, '=', targetElement.getBoundingClientRect().top, currentPosition, headerOffset)
     if (
       (directions.top && targetHeight < currentPosition) ||
       (directions.bottom && targetHeight > currentPosition)) {
@@ -55,6 +56,8 @@ const hashScroll = () => {
     const linkEl = el.matches('a') ? el : el.closest('a')
     if (linkEl) {
       let href = linkEl.getAttribute('href')
+      if (!href) return
+
       const setHash = !linkEl.hasAttribute('data-unset-hash')
       const ignoreHeader = linkEl.hasAttribute('data-ignore-header')
       // if absolute link to hash on page, set hash only
@@ -74,7 +77,11 @@ const hashScroll = () => {
   if (location.hash) {
     const $target = document.getElementById(location.hash.replace('#', ''));
     if (!$target) return false
-    scrollToTarget($target)
-    handeAnchorToggle($target)
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      scrollToTarget($target)
+      handeAnchorToggle($target)
+    }, 1);
   }
 }
