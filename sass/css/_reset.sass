@@ -28,7 +28,9 @@ input, textarea, button
   font-family: inherit
   font-size: inherit
   color: inherit
-  -webkit-appearance: none
+
+  &:not([type=checkbox]):not([type=radio])
+    -webkit-appearance: none
 
 a
   color: inherit
