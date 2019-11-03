@@ -87,16 +87,15 @@ main
   .col-#{$i}
     +grid-width($i)
 
-main, section, article
-  &.content
-    +content-width
-    margin: 0 auto
+div.content
+  +content-width
+  margin: 0 auto
 
-    .content
-      padding: 0
+  .content
+    padding: 0
 
-    &.flex
-      +flex-space
+  &.flex
+    +flex-space
 
 .visually-hidden
   position: absolute
