@@ -7,5 +7,11 @@ $content-external-gutter: $grid-gutter-width
 @function grid-width($i)
   @return ($i * $grid-col-width) + (($i - 1) * $grid-gutter-width)
 
+@function cols($i)
+  @return grid-width($i)
+
+@function grid-fraction($i)
+  @return ($grid-cols / $i * $grid-col-width) + (($grid-cols / $i - 1) * $grid-gutter-width)
+
 =grid-width($i)
   max-width: grid-width($i)
