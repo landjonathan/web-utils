@@ -40,6 +40,10 @@ $large: 1920px
   @media screen and (orientation: portrait), (max-width: $small)
     @content
 
+=not-portrait-or-small
+  @media screen and (orientation: landscape) and (min-width: $small)
+    @content
+
 =portrait-medium
   @media screen and (orientation: portrait) and (min-width: $small) and (max-width: $medium)
     @content
