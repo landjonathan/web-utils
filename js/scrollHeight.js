@@ -6,6 +6,7 @@ const scrollHeight = () => {
       value.style.setProperty('--scroll-height', source.scrollHeight + 'px')
     })
   }
-  setScrollHeights()
+  // after fonts and images loaded
+  window.addEventListener('load', () => { setScrollHeights() })
   windowListeners.resize.push(setScrollHeights)
 }
