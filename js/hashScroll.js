@@ -1,4 +1,4 @@
-const hashScroll = () => {
+const hashScroll = ({beforeScrollCallback = null} = {}) => {
   const scrollToTarget = (targetElement, setHash = true, ignoreHeader = false, directions = { top: true, bottom: true }) => {
     const headerOffset = ignoreHeader ? 0 : document.querySelector('#site-header').clientHeight
     const currentPosition = window.scrollY || window.pageYOffset
@@ -7,6 +7,7 @@ const hashScroll = () => {
     if (
       (directions.top && targetHeight < currentPosition) ||
       (directions.bottom && targetHeight > currentPosition)) {
+      if (typeof beforeScrollCallback === 'function') beforeScrollCallback()
       window.scrollTo({ behavior: 'smooth', top: targetHeight })
 
       // set hash
