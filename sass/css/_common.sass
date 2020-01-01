@@ -83,6 +83,16 @@ main
       width: 100%
       height: auto
 
+.bg.pano
+  overflow: hidden
+
+  .bg-image
+    width: 200%
+    animation: pano 240s ease-out forwards
+    @keyframes pano
+      to
+        transform: translateX(-50%)
+
 @for $i from 1 through 12
   .col-#{$i}
     +grid-width($i)
