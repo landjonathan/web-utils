@@ -29,70 +29,6 @@ main
   position: relative
   //transition: $transition-quick
 
-.hidden
-  +hidden
-
-.bg
-  z-index: -1
-  border-radius: inherit
-  //transition: inherit
-  pointer-events: none
-  +full-size-absolute
-
-.image
-  background:
-    size: cover
-    position: center
-    repeat: no-repeat
-
-.bg-image
-  pointer-events: none
-  +full-size-absolute
-  z-index: 0
-  background:
-    size: cover
-    position: center
-    repeat: no-repeat
-
-  &.behind
-    z-index: -1
-
-  .image
-    +full-size-absolute
-
-.image,
-.bg-image
-  img, svg
-    width: 100%
-    height: 100%
-    object-fit: cover
-
-.bg-video
-  pointer-events: none
-  +full-size-absolute
-  z-index: 0
-  box-sizing: border-box
-  overflow: hidden
-
-  video
-    object-fit: cover
-    width: 100%
-    height: 100%
-
-    +browser-edge
-      width: 100%
-      height: auto
-
-.bg.pano
-  overflow: hidden
-
-  .bg-image
-    width: 200%
-    animation: pano 240s ease-out forwards
-    @keyframes pano
-      to
-        transform: translateX(-50%)
-
 @for $i from 1 through 12
   .col-#{$i}
     +grid-width($i)
@@ -107,13 +43,3 @@ main
 
   &.flex
     +flex-space
-
-.visually-hidden
-  position: absolute
-  clip: rect(1px, 1px, 1px, 1px)
-  clip-path: inset(0px 0px 99.9% 99.9%)
-  overflow: hidden
-  height: 1px
-  width: 1px
-  padding: 0
-  border: 0
