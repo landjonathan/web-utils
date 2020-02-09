@@ -1,0 +1,1 @@
+- var p = (t, attrs, tag = 'p') => t.split('\n\n').map(t => t && `<${tag} ${attrs || ''}>${t}</${tag}>`).join('')
