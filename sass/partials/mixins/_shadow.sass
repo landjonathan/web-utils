@@ -1,0 +1,60 @@
+/// @mixin shadow
+/// $steps        int     number of shadows
+/// $blur         float   base progression from step to step
+/// $opacity      0-1     base opacity for each step
+/// $color        color   shadow color
+/// $h            float   horizontal distance factor from step to step
+/// $v            float   vertical distance factor from step to step
+/// $unit         string  units
+/// $sharpness    float   opacity factor -- positive value lowers opacity from step to step
+/// $blur-factor  float   multiplies the blur for each step
+
+=shadow($steps: 6, $blur: .25, $opacity: .12, $color: #000, $h: 0, $v: 1, $unit: 'px', $sharpness: 0, $blur-factor: 1)
+
+  // normalization
+  @if $opacity > 1
+    $opacity: 1
+  @else if $opacity < 0
+    $opacity: 0
+
+  $power: $blur * 10
+  @if $power < 1
+    $power: 1
+
+  // create a stack of shadows
+  // using the sass append method, similar to Array.reduce
+  $stack: ()
+  @for $i from 1 through $steps
+    // scale the blur to the square power of the step index
+    // i.e. 1,2,4,8,16
+    $s: power($power, $i - 1)
+
+    // set sharpness
+    $sh: -1 * (($i - 1) * $sharpness / 100)
+
+    // normalize opacity based on sharpness
+    $o: $opacity + $sh
+    @if $o < 0
+      $o: 0
+    @if $o > 1
+      $o: 1
+
+    // create the new shadow and append it to the stack
+    $stack: append($stack, shadow($s, $s * 1 * $blur-factor, $o, $color, $h, $v, $unit), comma)
+
+  // once stack is complete, echo it to CSS. Done!
+  box-shadow: $stack
+
+// single shadow function, used to constuct a shadow string for each step
+// i.e. 0 2px 4px #000
+@function shadow($step, $blur, $opacity, $color, $h, $v, $unit)
+  @return unquote($h * $step + $unit) unquote($v * $step + $unit) unquote($blur + $unit) transparentize($color, (1 - $opacity))
+
+// power helper function
+// https://css-tricks.com/snippets/sass/power-function/
+@function power($number, $exponent)
+  $value: 1
+  @if $exponent > 0
+    @for $i from 1 through $exponent
+      $value: $value * $number
+  @return $value
