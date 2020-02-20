@@ -4,8 +4,10 @@ const scrollActiveLabel = (
     elementDataIdentifier = 'data-scroll-element',
     labelDataIdentifier = 'data-scroll-label',
     toggleClass = 'active',
-    rootMargin = 0,
-    threshold = .5
+    rootMargin = '0px',
+    threshold = .5,
+    onlyFirst = false,
+    onToggleCallback = (state, $element, $label) => {}
   } = {},
 ) => {
 
@@ -18,7 +20,9 @@ const scrollActiveLabel = (
         const key = entry.target.getAttribute(elementDataIdentifier)
         const $targetLabels = [...$labels].filter(l => l.getAttribute(labelDataIdentifier) === key)
         $targetLabels.forEach($el => {
-          $el.classList.toggle(toggleClass, entry.isIntersecting)
+          const force = entry.isIntersecting
+          $el.classList.toggle(toggleClass, force)
+          onToggleCallback(force, entry.target, $el)
         })
       }), { rootMargin, threshold })
 

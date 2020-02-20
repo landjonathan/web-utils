@@ -4,7 +4,7 @@ const inViewClass = (
     defaultClassName = 'in-view',
     rootMargin = '-1px',
     threshold = .25,
-    onLoadFromBottom = false,
+    onLoadFromBottom = true,
   } = {},
 ) => {
   const addClass = $el => $el.classList.add($el.getAttribute(dataIdentifier) || defaultClassName)
