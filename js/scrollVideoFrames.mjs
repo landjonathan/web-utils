@@ -71,7 +71,6 @@ const scrollVideoFrames = ({
 
     const setDoneLoading = () => {
       isDoneLoading = true
-      console.log('done loading')
       if (typeof loadedCallback === 'function')
         loadedCallback()
     }
@@ -84,7 +83,6 @@ const scrollVideoFrames = ({
           if (urlAtIndex(j)) {
             images[j] = new Image()
             images[j].src = urlAtIndex(j)
-            console.log(j)
             images[j].onload = () => {
               loaded.push(j)
               if (loaded.length === frameCount) {
