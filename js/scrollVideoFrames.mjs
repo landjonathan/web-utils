@@ -5,7 +5,9 @@ const scrollVideoFrames = ({
                              frameHeight = window.innerHeight,
                              originX = null,
                              originY = null,
-                             sizeCover = true
+                             sizeCover = true,
+                             waitForDoneLoading = false,
+                             loadedCallback
                            } = {}) => {
   document.querySelectorAll(`[${canvasIdentifier}]`).forEach($canvas => {
     if (getComputedStyle($canvas).display === 'none') return
@@ -53,6 +55,7 @@ const scrollVideoFrames = ({
     const urlAtIndex = index => urlTemplate.replace(urlTemplateLastNumber, index.toString().padStart(urlPadding, '0'))
     const frameCount = parseInt(urlTemplateLastNumber)
     const images = [null]
+    let doneLoading = false
 
     images[1] = new Image()
     images[1].src = urlAtIndex(1)
@@ -68,6 +71,13 @@ const scrollVideoFrames = ({
       for (let i = 1; i < frameCount; i++) {
         images[i] = new Image()
         images[i].src = urlAtIndex(i)
+        if (i === frameCount - 1) {
+          images[i].onload = () => {
+            doneLoading = true
+            if (typeof loadedCallback === 'function')
+              loadedCallback()
+          }
+        }
       }
     }
     preloadImages()
@@ -78,6 +88,7 @@ const scrollVideoFrames = ({
 
     const setFrame = () => {
       if (getComputedStyle($canvas).display === 'none') return
+      if (waitForDoneLoading && !doneLoading) return
 
       const scrollTop = -1 * ($container.getBoundingClientRect().top)
       const maxScrollTop = $container.scrollHeight - window.innerHeight
