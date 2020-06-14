@@ -63,7 +63,7 @@ const hashScroll = ({
       if (!href) return
 
       const setHash = !linkEl.hasAttribute('data-unset-hash')
-      const ignoreHeader = linkEl.hasAttribute('data-ignore-header')
+      const ignoreHeader = linkEl.hasAttribute('data-ignore-header') || !document.querySelector(`[${headerMarker}]`)
       // if absolute link to hash on page, set hash only
       if (href.indexOf('#') !== -1 && window.location.href.split('#')[0] === href.split('#')[0])
         href = '#' + href.split('#')[1]
