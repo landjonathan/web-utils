@@ -7,6 +7,7 @@ const scrollVideoFrames = ({
                              originY = null,
                              sizeCover = true,
                              waitForDoneLoading = false,
+                             splitLoading = 4,
                              loadedCallback
                            } = {}) => {
   document.querySelectorAll(`[${canvasIdentifier}]`).forEach($canvas => {
@@ -55,7 +56,8 @@ const scrollVideoFrames = ({
     const urlAtIndex = index => urlTemplate.replace(urlTemplateLastNumber, index.toString().padStart(urlPadding, '0'))
     const frameCount = parseInt(urlTemplateLastNumber)
     const images = [null]
-    let doneLoading = false
+    const loaded = []
+    let isDoneLoading = false
 
     images[1] = new Image()
     images[1].src = urlAtIndex(1)
@@ -67,15 +69,28 @@ const scrollVideoFrames = ({
       }
     }
 
+    const setDoneLoading = () => {
+      isDoneLoading = true
+      console.log('done loading')
+      if (typeof loadedCallback === 'function')
+        loadedCallback()
+    }
+
     const preloadImages = () => {
-      for (let i = 1; i < frameCount; i++) {
-        images[i] = new Image()
-        images[i].src = urlAtIndex(i)
-        if (i === frameCount - 1) {
-          images[i].onload = () => {
-            doneLoading = true
-            if (typeof loadedCallback === 'function')
-              loadedCallback()
+      splitLoading = splitLoading || 1
+      let j
+      for (let i = 1; i <= splitLoading; i++) {
+        for (j = i; j <= frameCount; j += splitLoading) {
+          if (urlAtIndex(j)) {
+            images[j] = new Image()
+            images[j].src = urlAtIndex(j)
+            console.log(j)
+            images[j].onload = () => {
+              loaded.push(j)
+              if (loaded.length === frameCount) {
+                setDoneLoading()
+              }
+            }
           }
         }
       }
@@ -88,7 +103,7 @@ const scrollVideoFrames = ({
 
     const setFrame = () => {
       if (getComputedStyle($canvas).display === 'none') return
-      if (waitForDoneLoading && !doneLoading) return
+      if (waitForDoneLoading && !isDoneLoading) return
 
       const scrollTop = -1 * ($container.getBoundingClientRect().top)
       const maxScrollTop = $container.scrollHeight - window.innerHeight
