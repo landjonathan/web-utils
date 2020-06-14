@@ -12,8 +12,10 @@ const scrollVideoFrames = ({
 
     // setup canvas
     const context = $canvas.getContext('2d')
-    $canvas.width = innerWidth
-    $canvas.height = innerHeight
+    if (!sizeCover) {
+      $canvas.width = innerWidth
+      $canvas.height = innerHeight
+    }
 
     // setup images
     const draw = img => {
@@ -56,6 +58,10 @@ const scrollVideoFrames = ({
     images[1].src = urlAtIndex(1)
     images[1].onload = () => {
       draw(images[1])
+      if (sizeCover) {
+        $canvas.width = images[1].width
+        $canvas.height = images[1].height
+      }
     }
 
     const preloadImages = () => {
@@ -86,11 +92,13 @@ const scrollVideoFrames = ({
 
     // setup listeners
     const onResize = () => {
-      if ($canvas.width !== innerWidth || $canvas.height !== innerHeight) {
-        $canvas.width = innerWidth
-        $canvas.height = innerHeight
-        setFrame()
+      if (!sizeCover) {
+        if ($canvas.width !== innerWidth || $canvas.height !== innerHeight) {
+          $canvas.width = innerWidth
+          $canvas.height = innerHeight
+        }
       }
+      setFrame()
     }
 
     if (window.windowListeners) {
