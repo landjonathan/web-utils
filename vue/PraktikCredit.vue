@@ -17,3 +17,20 @@
     name: "PraktikCredit"
   }
 </script>
+
+<style scoped lang="sass">
+  .praktik-credit
+    display: block
+
+  a
+    text-decoration: none
+    display: inline
+
+  svg
+    width: 1.5em
+    display: inline-block
+    margin: 0 .25em -.33em .5em
+
+  path, polygon
+    fill: currentColor
+</style>
