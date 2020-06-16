@@ -9,8 +9,10 @@ const customPropertiesFromWindow = ({
 
   for (const {property, variable, events, calculation} of properties) {
     const setState = () => {
-      let value = calculation ? calculation(window[property]) : window[property]
-      document.documentElement.style.setProperty(variable, value)
+      requestAnimationFrame(() => {
+        let value = calculation ? calculation(window[property]) : window[property]
+        document.documentElement.style.setProperty(variable, value)
+      })
     }
 
     setState()

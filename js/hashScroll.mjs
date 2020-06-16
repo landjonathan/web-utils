@@ -1,6 +1,7 @@
 const hashScroll = ({
                       beforeScrollCallback = null,
-                      headerMarker = 'data-site-header'
+                      headerMarker = 'data-site-header',
+                      alwaysUnsetHash = false,
 } = {}) => {
   const scrollToTarget = (targetElement, setHash = true, ignoreHeader = false, directions = { top: true, bottom: true }) => {
     const headerOffset = ignoreHeader ? 0 : document.querySelector(`[${headerMarker}]`).clientHeight
@@ -62,7 +63,7 @@ const hashScroll = ({
       let href = linkEl.getAttribute('href')
       if (!href) return
 
-      const setHash = !linkEl.hasAttribute('data-unset-hash')
+      const setHash = !alwaysUnsetHash && !linkEl.hasAttribute('data-unset-hash')
       const ignoreHeader = linkEl.hasAttribute('data-ignore-header') || !document.querySelector(`[${headerMarker}]`)
       // if absolute link to hash on page, set hash only
       if (href.indexOf('#') !== -1 && window.location.href.split('#')[0] === href.split('#')[0])
