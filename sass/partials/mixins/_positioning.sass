@@ -1,15 +1,15 @@
-=full-size
-  top: 0
-  bottom: 0
-  left: 0
-  right: 0
+=full-size($inset: 0)
+  top: $inset
+  bottom: $inset
+  left: $inset
+  right: $inset
 
-=full-size-absolute
-  +full-size
+=full-size-absolute($inset: 0)
+  +full-size($inset)
   position: absolute
 
-=full-size-fixed
-  +full-size
+=full-size-fixed($inset: 0)
+  +full-size($inset)
   position: fixed
 
 =flex-center($direction: column)
