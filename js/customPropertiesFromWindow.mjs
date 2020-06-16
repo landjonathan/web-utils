@@ -17,7 +17,10 @@ const customPropertiesFromWindow = ({
 
     setState()
     for (const event of events)
-      window.windowListeners[event].push(setState)
+      if (window.windowListeners && window.windowListeners[event])
+        window.windowListeners[event].push(setState)
+      else
+        window.addEventListener(event, setState)
   }
 }
 
