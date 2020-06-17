@@ -16,16 +16,18 @@
   align-items: center
 
 =content-width
+  $padding-m: $margin-mid !default
+  $padding-s: $margin-small !default
   max-width: $grid-width
   width: 100%
   padding: 0 $content-external-gutter
 
   +medium
     max-width: 100%
-    padding: 0 $margin-mid
+    padding: 0 $padding-m
 
   +small
-    padding: 0 $margin-small
+    padding: 0 $padding-s
 
 =hidden
   opacity: 0
