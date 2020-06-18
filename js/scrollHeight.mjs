@@ -1,9 +1,12 @@
-const scrollHeight = () => {
+const scrollHeight = ({
+                        identifier = 'data-scroll-height',
+                        variable = '--scroll-height'
+                      } = {}) => {
   const setScrollHeights = () => {
-    document.querySelectorAll('[data-scroll-height]').forEach(value => {
-      const data = value.getAttribute('data-scroll-height');
+    document.querySelectorAll('[' + identifier + ']').forEach(value => {
+      const data = value.getAttribute(identifier);
       const source = data ? value.querySelector(data) : value
-      value.style.setProperty('--scroll-height', source.scrollHeight + 'px')
+      value.style.setProperty(variable, source.scrollHeight + 'px')
     })
   }
   // after fonts and images loaded
