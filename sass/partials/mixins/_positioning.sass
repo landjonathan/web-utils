@@ -1,16 +1,20 @@
-=full-size($inset: 0)
-  top: $inset
-  bottom: $inset
-  left: $inset
-  right: $inset
+=full-size($inset: 0, $auto: false)
+  top: if($auto == top, auto, $inset)
+  bottom: if($auto == bottom, auto, $inset)
+  left: if($auto == left, auto, $inset)
+  right: if($auto == right, auto, $inset)
 
-=full-size-absolute($inset: 0)
-  +full-size($inset)
+=full-size-absolute($inset: 0, $auto: false)
+  +full-size($inset, $auto)
   position: absolute
 
-=full-size-fixed($inset: 0)
-  +full-size($inset)
+=full-size-fixed($inset: 0, $auto: false)
+  +full-size($inset, $auto)
   position: fixed
+
+=full-size-sticky($inset: 0, $auto: bottom)
+  +full-size($inset, $auto)
+  position: sticky
 
 =flex-center($direction: column)
   display: flex
