@@ -1,4 +1,6 @@
 const customPropertiesFromEvent = ({
+                                     eventTarget = window,
+                                     propertyTarget = document.documentElement,
                                      name = 'mousemove',
                                      values = [
                                        { key: 'clientX', calculation: x => (x / window.innerWidth).toFixed(6) },
@@ -15,16 +17,16 @@ const customPropertiesFromEvent = ({
         variable = variable || '--' + key.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
         if (event[key]) {
           const value = calculation ? calculation(event[key]) : event[key]
-          document.documentElement.style.setProperty(variable, value)
+          propertyTarget.style.setProperty(variable, value)
         }
       }
     })
   }
 
-  if (window.windowListeners && window.windowListeners[name])
+  if (eventTarget === window && window.windowListeners && window.windowListeners[name])
     window.windowListeners[name].push(setState)
   else
-    window.addEventListener(name, setState)
+    eventTarget.addEventListener(name, setState)
 }
 
 export default customPropertiesFromEvent
