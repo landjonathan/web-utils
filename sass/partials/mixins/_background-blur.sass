@@ -1,0 +1,22 @@
+=background-blur($color, $blur, $blurOpacity, $opacity: 1, $filters: saturate(1.4), $set-opacity:false)
+  @if $set-opacity
+    background-color: $color
+    opacity: $opacity
+  @else
+    background-color: transparentize($color, 1 - $opacity)
+
+  @supports (backdrop-filter: blur($blur))
+    backdrop-filter: blur($blur) $filters
+    @if $set-opacity
+      background-color: $color
+      opacity: $blurOpacity
+    @else
+      background-color: transparentize($color, 1 - $blurOpacity)
+
+  @supports (-webkit-backdrop-filter: blur($blur))
+    -webkit-backdrop-filter: blur($blur) $filters
+    @if $set-opacity
+      background-color: $color
+      opacity: $blurOpacity
+    @else
+      background-color: transparentize($color, 1 - $blurOpacity)

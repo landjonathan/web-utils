@@ -1,0 +1,15 @@
+=overlay($opacity: 1, $color: #000, $image: false, $before: false, $blend-mode: normal)
+  $selector: after
+  @if ($before)
+    $selector: before
+
+  &:#{$selector}
+    content: ''
+    +full-size-absolute
+    z-index: 1
+    opacity: $opacity
+    mix-blend-mode: $blend-mode
+    @if ($image)
+      background-image: $image
+    @else
+      background-color: $color

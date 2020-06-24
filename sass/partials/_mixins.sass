@@ -7,6 +7,8 @@
 @import mixins/state
 @import mixins/type
 @import mixins/shadow
+@import mixins/background-blur
+@import mixins/overlay
 
 =horizontal-list
   list-style-type: none
@@ -38,8 +40,18 @@
   transform: none
   pointer-events: auto
 
-=scrollable
-  overflow-y: auto
+=scrollable($x: false, $y: true)
+  @if ($y)
+    @if($y == hidden)
+      overflow-y: hidden
+    @else
+      overflow-y: auto
+
+  @if($x)
+    @if($x == hidden)
+      overflow-x: hidden
+    @else
+      overflow-x: auto
   -webkit-overflow-scrolling: touch
 
 =scroll-height-auto
@@ -50,29 +62,6 @@
   height: 100vh
   height: var(--window-height, 100vh)
 
-=background-blur($color, $blur, $blurOpacity, $opacity: 1, $filters: saturate(1.4), $set-opacity:false)
-  @if $set-opacity
-    background-color: $color
-    opacity: $opacity
-  @else
-    background-color: transparentize($color, 1 - $opacity)
-
-  @supports (backdrop-filter: blur($blur))
-    backdrop-filter: blur($blur) $filters
-    @if $set-opacity
-      background-color: $color
-      opacity: $blurOpacity
-    @else
-      background-color: transparentize($color, 1 - $blurOpacity)
-
-  @supports (-webkit-backdrop-filter: blur($blur))
-    -webkit-backdrop-filter: blur($blur) $filters
-    @if $set-opacity
-      background-color: $color
-      opacity: $blurOpacity
-    @else
-      background-color: transparentize($color, 1 - $blurOpacity)
-
 // http://alistapart.com/article/using-css-mod-queries-with-range-selectors
 // mod query mixins
 =mod-list($mod, $remainder)
@@ -82,22 +71,6 @@
 
 @function v($var,$unit: px)
   @return calc(var(—-#{$var}) * #{1 + $unit})
-
-=overlay($opacity: 1, $color: #000, $image: false, $before: false, $blend-mode: normal)
-  $selector: after
-  @if ($before)
-    $selector: before
-
-  &:#{$selector}
-    content: ''
-    +full-size-absolute
-    z-index: 1
-    opacity: $opacity
-    mix-blend-mode: $blend-mode
-    @if ($image)
-      background-image: $image
-    @else
-      background-color: $color
 
 =gradient-map($color, $color-bottom: $color, $top-blend-mode: multiply, $bottom-blend-mode: screen, $opacity: 1)
   +overlay($opacity: $opacity, $color: $color, $blend-mode: $top-blend-mode)
