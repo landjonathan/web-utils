@@ -2,9 +2,12 @@ const hashScroll = ({
                       beforeScrollCallback = null,
                       headerMarker = 'data-site-header',
                       alwaysUnsetHash = false,
+                      useHeaderMarginBottom = false
 } = {}) => {
+  const $header = document.querySelector(`[${headerMarker}]`)
+
   const scrollToTarget = (targetElement, setHash = true, ignoreHeader = false, directions = { top: true, bottom: true }) => {
-    const headerOffset = ignoreHeader ? 0 : document.querySelector(`[${headerMarker}]`).clientHeight
+    const headerOffset = ignoreHeader ? 0 : $header.clientHeight + (useHeaderMarginBottom ? parseFloat(getComputedStyle($header).marginBottom) : 0)
     const currentPosition = window.scrollY || window.pageYOffset
     const targetHeight = targetElement.getBoundingClientRect().top + currentPosition - headerOffset
     // console.log(targetHeight, '=', targetElement.getBoundingClientRect().top, currentPosition, headerOffset)
