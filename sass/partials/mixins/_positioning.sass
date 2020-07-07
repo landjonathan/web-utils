@@ -16,14 +16,20 @@
   +full-size($inset, $auto)
   position: sticky
 
-=flex-center($direction: column)
+=flex-center($direction: column, $items: center)
   display: flex
   flex-direction: $direction
   justify-content: center
-  align-items: center
+  align-items: $items
 
-=flex-space($direction: row)
+=flex-space($direction: row, $items: center)
   display: flex
   flex-direction: $direction
   justify-content: space-between
-  align-items: center
+  align-items: $items
+
+=flex-columns($cols: 2)
+  display: flex
+
+  > *
+    flex: (100 / $cols * 1%) 0 0
