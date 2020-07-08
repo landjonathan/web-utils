@@ -13,7 +13,7 @@ const scrollActiveLabel = (
   } = {},
 ) => {
   const $offsetElement = document.querySelector(`[${offsetDataIdentifier}]`)
-  const offset = $offsetElement.getBoundingClientRect().height + (useOffsetElementMarginBottom ? parseFloat(getComputedStyle($offsetElement).marginBottom) : 0)
+  const offset = $offsetElement.getBoundingClientRect().height + (useOffsetElementMarginBottom ? parseFloat(getComputedStyle($offsetElement).marginBottom) + 1 : 0)
 
   document.querySelectorAll(`[${containerDataIdentifier}]`).forEach($container => {
     const $elements = $container.querySelectorAll(`[${elementDataIdentifier}]`)
