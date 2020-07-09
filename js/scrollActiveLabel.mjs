@@ -57,9 +57,8 @@ const scrollActiveLabel = (
 
         lastTarget = currentTarget
 
-        if (scrollToTargetLabel && $nav) {
-          const $firstActiveLabel = [...$labels].find($label => $label.classList.contains(toggleClass))
-
+        const $firstActiveLabel = [...$labels].find($label => $label.classList.contains(toggleClass))
+        if ($firstActiveLabel && scrollToTargetLabel && $nav) {
           let target
           if (window.lang === 'he') {
             const labelWidth = $firstActiveLabel.clientWidth + parseFloat(getComputedStyle($firstActiveLabel).marginRight) + parseFloat(getComputedStyle($nav).paddingRight)
