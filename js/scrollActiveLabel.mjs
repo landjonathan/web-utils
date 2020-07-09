@@ -3,12 +3,14 @@ const scrollActiveLabel = (
     containerDataIdentifier = 'data-scroll-labels-container',
     elementDataIdentifier = 'data-scroll-element',
     labelDataIdentifier = 'data-scroll-label',
+    overflowDataIdentifier = 'data-scroll-overflow',
     offsetDataIdentifier = 'data-site-header',
     offsetTop = 0,
     useOffsetElementMarginBottom = true,
     markLabels = true,
     markElements = true,
     toggleClass = 'active',
+    scrollToTargetLabel = true,
     onChanged = (target, $elements, $labels) => {}
   } = {},
 ) => {
@@ -18,6 +20,7 @@ const scrollActiveLabel = (
   document.querySelectorAll(`[${containerDataIdentifier}]`).forEach($container => {
     const $elements = $container.querySelectorAll(`[${elementDataIdentifier}]`)
     const $labels = $container.querySelectorAll(`[${labelDataIdentifier}]`)
+    const $nav = $container.querySelector(`[${overflowDataIdentifier}]`)
 
     let lastTarget = {}
 
@@ -53,6 +56,25 @@ const scrollActiveLabel = (
         }
 
         lastTarget = currentTarget
+
+        if (scrollToTargetLabel && $nav) {
+          const $firstActiveLabel = [...$labels].find($label => $label.classList.contains(toggleClass))
+
+          let target
+          if (window.lang === 'he') {
+            const labelWidth = $firstActiveLabel.clientWidth + parseFloat(getComputedStyle($firstActiveLabel).marginRight) + parseFloat(getComputedStyle($nav).paddingRight)
+            const labelStart = $firstActiveLabel.offsetLeft + labelWidth
+            target = ($nav.scrollWidth - $nav.clientWidth) - ($nav.clientWidth - labelStart)
+            if (window.device && window.device.ios()) { target = target - ($nav.scrollWidth - $nav.clientWidth) }
+          } else {
+            target = $firstActiveLabel.offsetLeft - parseFloat(getComputedStyle($firstActiveLabel).marginLeft) - parseFloat(getComputedStyle($nav).paddingLeft)
+          }
+
+          $nav.scrollTo({
+            behavior: 'smooth',
+            left: target
+          })
+        }
       }
     })
 
