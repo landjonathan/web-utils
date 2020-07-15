@@ -91,9 +91,19 @@ export const image = (name = 'image', args) => field(name, { ...args, widget: 'i
 
 export const text = (name = 'text', args) => field(name, { ...args, widget: 'text' })
 
-export const md = (name = 'text', args) => field(name, {  widget: 'markdown', minimal: true, editorComponents: [], ...args, })
+export const md = (name = 'text', args) => field(name, {
+  widget: 'markdown',
+  minimal: true,
+  buttons: ['bold', 'italic', 'link', 'heading-three', 'heading-four', 'heading-five', 'heading-six', 'bulleted-list', 'numbered-list'],
+  editorComponents: [], ...args,
+})
 
-export const date = (name = 'date', args) => field(name, { ...args, widget: 'datetime', timeFormat: false, format: 'x' })
+export const date = (name = 'date', args) => field(name, {
+  ...args,
+  widget: 'datetime',
+  timeFormat: false,
+  format: 'x'
+})
 
 export const boolean = (name, args) => required(name, { widget: 'boolean', ...args })
 
