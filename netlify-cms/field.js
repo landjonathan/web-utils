@@ -99,10 +99,11 @@ export const md = (name = 'text', args) => field(name, {
 })
 
 export const date = (name = 'date', args) => field(name, {
-  ...args,
   widget: 'datetime',
+  dateFormat: 'DD/MM/YYYY',
   timeFormat: false,
-  format: 'x'
+  format: 'x',
+  ...args,
 })
 
 export const boolean = (name, args) => required(name, { widget: 'boolean', ...args })
