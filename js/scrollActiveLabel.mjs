@@ -11,6 +11,7 @@ const scrollActiveLabel = (
     markElements = true,
     toggleClass = 'active',
     scrollToTargetLabel = true,
+    firstActiveIfAbove = false,
     onChanged = (target, $elements, $labels) => {}
   } = {},
 ) => {
@@ -41,10 +42,13 @@ const scrollActiveLabel = (
         }
       }
 
+      const isActive = ($el, i) => $el.getAttribute(labelDataIdentifier) === currentTarget.key
+        || i === 0 && firstActiveIfAbove && !currentTarget.key
+
       if (markLabels)
-        $labels.forEach($el => $el.classList.toggle(toggleClass, $el.getAttribute(labelDataIdentifier) === currentTarget.key))
+        $labels.forEach(($el, i) => $el.classList.toggle(toggleClass, isActive($el, i)))
       if (markElements)
-        $elements.forEach($el => $el.classList.toggle(toggleClass, $el.getAttribute(elementDataIdentifier) === currentTarget.key))
+        $elements.forEach(($el, i) => $el.classList.toggle(toggleClass, isActive($el, i)))
 
       if (!lastTarget.key || lastTarget.key !== currentTarget.key) {
         if (typeof onChanged === 'function' && lastTarget.key) {
