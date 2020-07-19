@@ -6,7 +6,7 @@ const slideshow = ({
                      nextClass = 'next',
                      prevClass = 'prev',
                      interval = null,
-                     removePrevAndNextClassesOnStop = true,
+                     removePrevAndNextClassesOnStop = false,
                      onChange = (index, $slide, $control, $container) => {}
                    } = {}) => {
   const $containers = document.querySelectorAll(`[${containerIdentifier}]`)
@@ -55,6 +55,7 @@ const slideshow = ({
 
     if (typeof interval === 'number') {
       timer = setInterval(setState, interval)
+      $container.classList.add('with-timer')
     }
 
     $controls.forEach($control => {
@@ -62,6 +63,7 @@ const slideshow = ({
         if (timer) {
           clearInterval(timer)
           timer = null
+          $container.classList.remove('with-timer')
         }
         setState(parseInt($control.getAttribute(controlIdentifier)))
       })
