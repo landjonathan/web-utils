@@ -106,7 +106,7 @@ export const date = (name = 'date', args) => field(name, {
   ...args,
 })
 
-export const boolean = (name, args) => required(name, { widget: 'boolean', ...args })
+export const boolean = (name, args) => field(name, { widget: 'boolean', ...args })
 
 export const page = (name, fields, { label, filename, path = 'src/content/', folder = 'pages', extension = 'yml' } = {}) => ({
   name,
