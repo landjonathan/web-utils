@@ -6,6 +6,9 @@ const slideshow = ({
                      nextClass = 'next',
                      prevClass = 'prev',
                      interval = null,
+                     intervalIdentifier = 'data-slideshow-timer',
+                     restartTimerInterval = null,
+                     restartTimerIntervalIdentifier = 'data-slideshow-timer-restart',
                      removePrevAndNextClassesOnStop = false,
                      onChange = (index, $slide, $control, $container) => {}
                    } = {}) => {
@@ -19,7 +22,11 @@ const slideshow = ({
     let timer
 
     interval = interval
-      || parseInt($container.getAttribute('data-slideshow-timer'))
+      || parseInt($container.getAttribute(intervalIdentifier))
+      || null
+
+    restartTimerInterval = restartTimerInterval
+      || parseInt($container.getAttribute(restartTimerIntervalIdentifier))
       || null
 
     let index = [...$slides].findIndex($slide => $slide.classList.contains(activeClass))
@@ -53,17 +60,29 @@ const slideshow = ({
       typeof onChange === 'function' && onChange(index, $slides[index - 1], $controls[index - 1], $container)
     }
 
-    if (typeof interval === 'number') {
-      timer = setInterval(setState, interval)
-      $container.classList.add('with-timer')
+    const setTimer = () => {
+      if (typeof interval === 'number') {
+        timer = setInterval(setState, interval)
+        $container.classList.add('with-timer')
+      }
     }
+
+    const unsetTimer = () => {
+      clearInterval(timer)
+      timer = null
+      $container.classList.remove('with-timer')
+
+      if (restartTimerInterval) {
+        setTimeout(setTimer, restartTimerInterval)
+      }
+    }
+
+    setTimer()
 
     $controls.forEach($control => {
       $control.addEventListener('click', () => {
         if (timer) {
-          clearInterval(timer)
-          timer = null
-          $container.classList.remove('with-timer')
+          unsetTimer()
         }
         setState(parseInt($control.getAttribute(controlIdentifier)))
       })
