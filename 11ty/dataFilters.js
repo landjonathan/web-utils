@@ -4,6 +4,7 @@ module.exports = function (eleventyConfig, pluginNamespace) {
     eleventyConfig.addFilter('filter', (array, key, value) => array.filter(x => x[key] === value))
     eleventyConfig.addFilter('sub', (array, n, start = 0) => array.slice(start, n))
     eleventyConfig.addFilter('map', (array, key) => array.map(n => n[key]))
+    eleventyConfig.addFilter('flat', arrayOfArrays => arrayOfArrays.flat())
     eleventyConfig.addFilter('dataFromSlug', (array, slug) => array.find(x => x.fileSlug && x.fileSlug === slug).data)
   })
 }
