@@ -114,3 +114,8 @@ export const page = (name, fields, { label, filename, path = 'src/content/', fol
   label: label || titleize(name),
   fields
 })
+
+export const settingsPage = (name, fields, args) => page(name, fields, {
+  folder: 'data',
+  ...args
+})
