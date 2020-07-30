@@ -10,6 +10,19 @@ export const slugify = text => text.toString().toLowerCase()
   .replace(/^-+/, '')                 // Trim - from start of text
   .replace(/-+$/, '')                // Trim - from end of text
 
+// https://1loc.dev/#convert-an-array-of-objects-to-a-single-object
+// Convert an array of objects to a single object
+// e.g. f([{id: 1, foo: bar}, {id: 2, baz: bar}], 'id') -> {1:{id:1, foo: bar},2:{id:2, baz: bar}}
+export const arrayOfObjectsToObjectByKey = (arr, key) => arr.reduce((a, b) => ({ ...a, [b[key]]: b }), {})
+
+// https://1loc.dev/#group-an-array-of-objects-by-a-key
+// Group an array of objects by a key
+export const groupArrayOfObjectsByKey = (arr, key) => arr.reduce((acc, item) => ((acc[item[key]] = [...(acc[item[key]] || []), item]), acc), {});
+
+// https://1loc.dev/#convert-camel-case-to-kebab-case-and-vice-versa
+export const kebabToCamel = str => str.replace(/-./g, m => m.toUpperCase()[1])
+export const camelToKebab = str => str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+
 export const initHelpers = () => {
   window.$ = window.$ || document.querySelector.bind(document)
   window.$$ = window.$$ || document.querySelectorAll.bind(document)
