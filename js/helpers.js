@@ -54,7 +54,7 @@ export const arrayOfObjectsToObjectByKey = (array, key) => array.reduce((a, b) =
  *
  * {@link https://1loc.dev/#group-an-array-of-objects-by-a-key}
  *
- * @param {this} array
+ * @param {object[]} array
  * @param {string|number} key
  * @param {String[]} sortArray
  * @param {function} sortBy
