@@ -6,3 +6,16 @@
 
   @media screen and (max-width: $min-px / $size * 100)
     font-size: $min-px
+
+@function strip-unit($value)
+  @return $value / ($value * 0 + 1)
+
+// https://odongo.xyz/css-locks-in-sass-and-stylus/
+=lock($min-size, $max-size, $min-width: 768, $max-width: 1440, $prop: font-size, $unit: px)
+  #{$prop}: #{$min-size}#{$unit}
+
+  @media (min-width: #{$min-width}#{$unit})
+    #{$prop}: calc(#{$min-size}#{$unit} + (#{$max-size} - #{$min-size}) * ((100vw - #{$min-width}#{$unit}) / (#{$max-width} - #{$min-width})))
+
+  @media (min-width: #{$max-width}#{$unit})
+    #{$prop}: #{$max-size}#{$unit}
