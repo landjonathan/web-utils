@@ -1,3 +1,5 @@
+import { slugify, camelToKebab, kebabToCamel, capitalize } from 'assets/utils/functions/stringManipulation'
+
 /**
  * @param {Number} val
  * @param {Number} min
@@ -19,21 +21,6 @@ export const topInPage = $el => $el.getBoundingClientRect().top + window.scrollY
  * @returns {number}
  */
 export const bottomInPage =  $el => $el.getBoundingClientRect().bottom + window.scrollY
-
-
-/**
- * {@link https://gist.github.com/mathewbyrne/1280286/731b33268f7d8aea972a5aeef2c345496e8e5b18}
- *
- * @param {string} text
- * @returns {string}
- */
-export const slugify = text => text.toString().toLowerCase()
-  .replace(/(\w)'/g, '$1')           // Special case for apostrophes
-  .replace(/[^a-z0-9_\-]+/g, '-')     // Replace all non-word chars with -
-  .replace(/--+/g, '-')             // Replace multiple - with single -
-  .replace(/^-+/, '')                 // Trim - from start of text
-  .replace(/-+$/, '')                // Trim - from end of text
-
 
 /**
  * Convert an array of objects to a single object.
@@ -65,20 +52,10 @@ export const groupArrayOfObjectsByKey = (array, key, sortArray = [], sortBy = x 
   .sort(sortBy)
   .reduce((acc, item) => ((acc[item[key]] = [...(acc[item[key]] || []), item]), acc), {});
 
-
-/**
- * {@link https://1loc.dev/#convert-camel-case-to-kebab-case-and-vice-versa}
- * @param {string} string
- * @returns {string}
- */
-export const kebabToCamel = string => string.replace(/-./g, m => m.toUpperCase()[1])
-
-/**
- * {@link https://1loc.dev/#convert-camel-case-to-kebab-case-and-vice-versa}
- * @param {string} string
- * @returns {string}
- */
-export const camelToKebab = string => string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+export const slugify = slugify
+export const kebabToCamel = kebabToCamel
+export const camelToKebab = camelToKebab
+export const capitalize = capitalize
 
 export const initHelpers = () => {
   window.$ = window.$ || document.querySelector.bind(document)
