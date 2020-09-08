@@ -1,4 +1,5 @@
 import { slugify, camelToKebab, kebabToCamel, capitalize } from 'assets/utils/functions/stringManipulation'
+export { slugify, camelToKebab, kebabToCamel, capitalize } from 'assets/utils/functions/stringManipulation'
 
 /**
  * @param {Number} val
@@ -51,11 +52,6 @@ export const groupArrayOfObjectsByKey = (array, key, sortArray = [], sortBy = x 
   .sort((a, b) => sortArray.indexOf(a[key]) === -1 ? 1 : sortArray.indexOf(a[key]) - sortArray.indexOf(b[key]))
   .sort(sortBy)
   .reduce((acc, item) => ((acc[item[key]] = [...(acc[item[key]] || []), item]), acc), {});
-
-export const slugify = slugify
-export const kebabToCamel = kebabToCamel
-export const camelToKebab = camelToKebab
-export const capitalize = capitalize
 
 export const initHelpers = () => {
   window.$ = window.$ || document.querySelector.bind(document)
