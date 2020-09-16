@@ -108,6 +108,21 @@ export const date = (name = 'date', args) => field(name, {
 
 export const boolean = (name, args) => field(name, { widget: 'boolean', ...args })
 
+export const select = (name, options, args) => field(name, {
+  widget: 'select',
+  options,
+  ...args
+})
+
+export const option = (value, label) => ({
+  value,
+  label: label || titleize(value)
+})
+
+export const url = (name, args) => field(name, {
+  pattern: ['https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)\n', 'Must be a valid URL']
+})
+
 export const page = (name, fields, { label, filename, path = 'src/content/', folder = 'pages', extension = 'yml' } = {}) => ({
   name,
   file: `${path}${folder}/${filename || name}.${extension}`,
@@ -118,4 +133,15 @@ export const page = (name, fields, { label, filename, path = 'src/content/', fol
 export const settingsPage = (name, fields, args) => page(name, fields, {
   folder: 'data',
   ...args
+})
+
+export const postType = (name, fields, { label, path = 'src/content/', subfolder = '', ...args } = {}) => ({
+  name,
+  folder: `${path}${subfolder || ''}/${name}`,
+  label: label || titleize(name),
+  fields,
+  editor: { preview: false },
+  label_singular: (typeof args === 'undefined' || typeof args.label_singular === 'undefined') ? name.slice(0, -1) : args.label_singular,
+  create: true,
+  slug: '{{slug}}',
 })
