@@ -37,3 +37,14 @@ export const slugify = text => text.toString().toLowerCase()
  * @returns {string}
  */
 export const unslugify = (slug, capitalized = true) => (capitalized ? capitalize : x => x)(slug.replace(/-/g, ' '))
+
+/**
+ * @param {string} fullUrl
+ * @param {boolean} removeProtocol
+ * @param {boolean} removeWww
+ * @returns {string}
+ */
+export const prettyUrl = (fullUrl, { removeProtocol = true, removeWww = false } = {}) =>
+  fullUrl
+    .replace(/(https?:\/\/)/i, removeProtocol ? '' : '$1')
+    .replace(/(www.)/i, removeWww ? '' : '$1')
