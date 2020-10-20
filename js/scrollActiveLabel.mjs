@@ -30,7 +30,7 @@ const scrollActiveLabel = (
       let currentTarget = { top: -Infinity }
 
       $elements.forEach($el => {
-        const key = $el.getAttribute(elementDataIdentifier)
+        const key = $el.getAttribute(elementDataIdentifier) || $el.getAttribute('id')
         tops[key] = $el.getBoundingClientRect().top - offset - offsetTop
       })
 
@@ -42,7 +42,7 @@ const scrollActiveLabel = (
         }
       }
 
-      const isActive = ($el, i) => $el.getAttribute(labelDataIdentifier) === currentTarget.key
+      const isActive = ($el, i) => ($el.getAttribute(labelDataIdentifier) || ($el.getAttribute('href') && $el.getAttribute('href').replace('#', ''))) === currentTarget.key
         || i === 0 && firstActiveIfAbove && !currentTarget.key
 
       if (markLabels)
@@ -54,8 +54,8 @@ const scrollActiveLabel = (
         if (typeof onChanged === 'function' && lastTarget.key) {
           onChanged(
             lastTarget,
-            [...$elements].filter($el => $el.getAttribute(elementDataIdentifier) === lastTarget.key),
-            [...$labels].filter($el => $el.getAttribute(labelDataIdentifier) === lastTarget.key),
+            [...$elements].filter($el => ($el.getAttribute(elementDataIdentifier) || $el.getAttribute('id')) === lastTarget.key),
+            [...$labels].filter($el => ($el.getAttribute(labelDataIdentifier) || $el.getAttribute('href').replace('#', '')) === lastTarget.key),
           )
         }
 
