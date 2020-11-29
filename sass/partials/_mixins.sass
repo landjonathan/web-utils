@@ -107,3 +107,16 @@
   border-radius: $size / 2
   overflow: hidden
   flex-shrink: 0
+
+=text-gradient($gradient, $fallback: currentColor, $resize: true)
+  color: $fallback
+
+  @supports (--custom: properties)
+    background-image: $gradient
+    color: transparent
+    //noinspection CssInvalidPropertyValue
+    background-clip: text
+    -webkit-background-clip: text
+
+    @if ($resize)
+      display: inline-block
