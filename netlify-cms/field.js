@@ -135,7 +135,7 @@ export const settingsPage = (name, fields, args) => page(name, fields, {
   ...args
 })
 
-export const postType = (name, fields, { label, path = 'src/content/', subfolder = '', ...args } = {}) => ({
+export const postType = (name, fields, { label, path = 'src/content/', subfolder = '', slug = '{{slug}}', ...args } = {}) => ({
   name,
   folder: `${path}${subfolder || ''}/${name}`,
   label: label || titleize(name),
@@ -143,5 +143,5 @@ export const postType = (name, fields, { label, path = 'src/content/', subfolder
   editor: { preview: false },
   label_singular: (typeof args === 'undefined' || typeof args.label_singular === 'undefined') ? name.slice(0, -1) : args.label_singular,
   create: true,
-  slug: '{{slug}}',
+  slug,
 })
