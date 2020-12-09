@@ -7,22 +7,73 @@ const titleize = name => name.charAt(0).toUpperCase() + name.slice(1).replace(/(
 
 /**
  * @typedef {'boolean'|'code'|'color'|'datetime'|'file'|'hidden'|'image'|'list'|'map'|'markdown'|'number'|'object'|'relation'|'select'|'string'|'text'} Widget
+ * @typedef {'bold'|'italic'|'code'|'link'|'heading-one'|'heading-two'|'heading-three'|'heading-four'|'heading-five'|'heading-six'|'quote'|'bulleted-list'|'numbered-list'} Button
+ * @typedef {'raw'|'rich_text'} Mode
+ */
+
+/**
+ * Arguments that generate a field.
+ * @typedef {Object} FieldArgs
+ * @property {Widget} [widget] Widget type
+ * @property {string} [label] The field label that appears in CMS
+ * @property {boolean} [required]
+ * @property {boolean} [collapsed]
+ * @property {Field|Field[]} [fields]
+ * @property {string} [label_singular]
+ * @property {Field} [field]
+ * @property {any} [defaultValue]
+ * @property {boolean} [allow_add]
+ * @property {string} [hint]
+ * @property {string} [pattern]
+ * @property {any} [default]
+ * @property {string} [default_language] For code widget
+ * @property {boolean} [allow_language_selection] For code widget
+ * @property {Object} [keys] For code widget
+ * @property {boolean} [output_code_only] For code widget
+ * @property {boolean} [allowInput] For color widget
+ * @property {boolean} [enableAlpha] For color widget
+ * @property {string} [format] For datetime widget
+ * @property {string|boolean} [date_format] For datetime widget
+ * @property {string|boolean} [time_format] For datetime widget
+ * @property {boolean} [picker_utc] For datetime widget
+ * @property {string} [media_library] For image/file widget
+ * @property {boolean} [allow_multiple] For image/file widget
+ * @property {Object} [config] For image/file widget
+ * @property {string} [summary] For list widget
+ * @property {boolean} [minimize_collapsed] For list widget
+ * @property {number} [max] For list/number widget
+ * @property {number} [min] For list/number widget
+ * @property {boolean} [add_to_top] For list widget
+ * @property {number} [decimals] For map widget
+ * @property {any} [type] For map widget
+ * @property {boolean} [minimal] For markdown widget
+ * @property {Button[]} [buttons] For markdown widget
+ * @property {string[]} [editor_components] For markdown widget
+ * @property {Mode[]} [modes] For markdown widget
+ * @property {'int'|'float'} [value_type] For number widget
+ * @property {number} [step] For number widget
+ * @property {string} [collection] For relation widget
+ * @property {string} [value_field] For relation widget
+ * @property {string|string[]} [search_fields] For relation widget
+ * @property {string} [file] For relation widget
+ * @property {string|string[]} [display_fields] For relation widget
+ * @property {number} [options_length] For relation widget
+ * @property {FieldArgs} [...args]
+ */
+
+/**
+ * @typedef Field
+ * @property {string} name
+ * @augments FieldArgs
  */
 
 /**
  * Generates a generic field. Defaults to a 'string' if no widget declared. Defaults title to {@link titleize}d name.
  * @param {string} name The name of the field in code
- * @param {Widget=} widget
- * @param {string=} label
- * @param {boolean=} required
- * @param {boolean=} collapsed
- * @param {field|field[]=} fields
- * @param {string=} label_singular
- * @param {field=} field
- * @param defaultValue
- * @param {boolean=} allow_add
- * @param rest
+ * @param {any|FieldArgs} [args]
+ * @return Field
  */
+
 export const field = (name,
                       {
                         widget = 'string',
@@ -36,6 +87,7 @@ export const field = (name,
                         allow_add,
                         ...rest
                       } = {}) => {
+
   if (!label) {
     label = titleize(name)
   }
@@ -72,25 +124,25 @@ export const field = (name,
 /**
  * Generates a required field
  * @param {string} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const required = (name, args) => field(name, { ...args, required: true })
 
 /**
  * Generates a required string field. Defaults name to 'title'.
  * @param {string=} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs=} args
+ * @return {Field}
  */
 export const title = (name = 'title', args) => field(name, { ...args, required: true })
 
 /**
  * Generates an object field.
  * @param {string} name
- * @param {field|field[]} fields
- * @param {=} args
- * @return {field}
+ * @param {Field|Field[]} fields
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const object = (name, fields, args) => required(name, {
   ...args,
@@ -103,9 +155,9 @@ export const object = (name, fields, args) => required(name, {
  * Defaults singular label to the label with the last letter removed.
  * Defaults to collapsed.
  * @param {string} name
- * @param {field|field[]=} fields
- * @param {=} args
- * @return {field}
+ * @param {Field|Field[]=} fields
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const list = (name, fields, args) => {
   const _args = {
@@ -141,24 +193,24 @@ export const list = (name, fields, args) => {
 /**
  * Generates an image field. Defaults name to 'image'.
  * @param {string} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const image = (name = 'image', args) => field(name, { ...args, widget: 'image' })
 
 /**
  * Generates a text field. Defaults name to 'text'.
  * @param {string=} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const text = (name = 'text', args) => field(name, { ...args, widget: 'text' })
 
 /**
- * Generates a minimal markdown field. Defaults name to 'text'. 
+ * Generates a minimal markdown field. Defaults name to 'text'.
  * @param {string=} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const md = (name = 'text', args) => field(name, {
   widget: 'markdown',
@@ -170,8 +222,8 @@ export const md = (name = 'text', args) => field(name, {
 /**
  * Generates a date field. Defaults name to 'date'.
  * @param {string=} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const date = (name = 'date', args) => field(name, {
   widget: 'datetime',
@@ -184,16 +236,22 @@ export const date = (name = 'date', args) => field(name, {
 /**
  * Generates a boolean field.
  * @param {string} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const boolean = (name, args) => field(name, { widget: 'boolean', ...args })
+
+/**
+ * @typedef Option
+ * @property {string} label
+ * @property {string} value
+ */
 
 /**
  * Generates an option, to be used inside a {@link select}.
  * @param value
  * @param label
- * @return {{label: string, value}}
+ * @return {Option}
  */
 export const option = (value, label) => ({
   value,
@@ -203,9 +261,9 @@ export const option = (value, label) => ({
 /**
  * Generates a select field.
  * @param {string} name
- * @param {option[]} options Populated with {@link option}s.
- * @param {=} args
- * @return {field}
+ * @param {Option[]} options Populated with {@link option}s.
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const select = (name, options, args) => field(name, {
   widget: 'select',
@@ -216,8 +274,8 @@ export const select = (name, options, args) => field(name, {
 /**
  * Generates a string field validated at a URL
  * @param {string} name
- * @param {=} args
- * @return {field}
+ * @param {any|FieldArgs} [args]
+ * @return {Field}
  */
 export const url = (name, args) => field(name, {
   pattern: ['https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)\n', 'Must be a valid URL'],
@@ -225,15 +283,19 @@ export const url = (name, args) => field(name, {
 })
 
 /**
+ * @typedef Page
+ */
+
+/**
  * Generates a single page field. Defaults label to {@link titleize}d name. Defaults to a .yml file.
  * @param {string} name
- * @param {field[]} fields
+ * @param {Field[]} fields
  * @param {string=} label
  * @param {string} filename
  * @param {string} path
  * @param {string} folder
  * @param {string} extension
- * @return {page}
+ * @return {Page}
  */
 export const page = (name, fields, { label, filename, path = 'src/content/', folder = 'pages', extension = 'yml' } = {}) => ({
   name,
@@ -245,9 +307,9 @@ export const page = (name, fields, { label, filename, path = 'src/content/', fol
 /**
  * Generates a page in the data folder.
  * @param {string} name
- * @param {field[]} fields
- * @param {=} args
- * @return {page}
+ * @param {Field[]} fields
+ * @param {any|FieldArgs} [args]
+ * @return {Page}
  */
 export const settingsPage = (name, fields, args) => page(name, fields, {
   folder: 'data',
@@ -255,15 +317,19 @@ export const settingsPage = (name, fields, args) => page(name, fields, {
 })
 
 /**
+ * @typedef PostType
+ */
+
+/**
  * Generates a post type. Defaults label to {@link titleize}d name. Defaults to a .md file.
  * @param {string} name
- * @param {field[]} fields
+ * @param {Field[]} fields
  * @param {string=} label
  * @param {string} path
  * @param {string} subfolder
  * @param {string} slug
- * @param {=} args
- * @return {postType}
+ * @param {any|FieldArgs} [args]
+ * @return {PostType}
  */
 export const postType = (name, fields, { label, path = 'src/content', subfolder = '', slug = '{{slug}}', ...args } = {}) => ({
   name,
