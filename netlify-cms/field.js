@@ -135,7 +135,7 @@ export const settingsPage = (name, fields, args) => page(name, fields, {
   ...args
 })
 
-export const postType = (name, fields, { label, path = 'src/content/', subfolder = '', slug = '{{slug}}', ...args } = {}) => ({
+export const postType = (name, fields, { label, path = 'src/content', subfolder = '', slug = '{{slug}}', ...args } = {}) => ({
   name,
   folder: `${path}${subfolder || ''}/${name}`,
   label: label || titleize(name),
