@@ -10,17 +10,17 @@ const titleize = name => name.charAt(0).toUpperCase() + name.slice(1).replace(/(
  */
 
 /**
- * Generates a generic field. Defaults to a 'string' if no widget declared.
+ * Generates a generic field. Defaults to a 'string' if no widget declared. Defaults title to {@link titleize}d name.
  * @param {string} name The name of the field in code
- * @param {Widget} widget
- * @param {string} label
- * @param {boolean} required
- * @param {boolean} collapsed
- * @param {field[] }fields
- * @param {string} label_singular
- * @param {field} field
+ * @param {Widget=} widget
+ * @param {string=} label
+ * @param {boolean=} required
+ * @param {boolean=} collapsed
+ * @param {field|field[]=} fields
+ * @param {string=} label_singular
+ * @param {field=} field
  * @param defaultValue
- * @param {boolean} allow_add
+ * @param {boolean=} allow_add
  * @param rest
  */
 export const field = (name,
@@ -88,7 +88,7 @@ export const title = (name = 'title', args) => field(name, { ...args, required: 
 /**
  * Generates an object field.
  * @param {string} name
- * @param {field[] }fields
+ * @param {field|field[]} fields
  * @param {=} args
  * @return {field}
  */
@@ -103,7 +103,7 @@ export const object = (name, fields, args) => required(name, {
  * Defaults singular label to the label with the last letter removed.
  * Defaults to collapsed.
  * @param {string} name
- * @param {field[]=} fields
+ * @param {field|field[]=} fields
  * @param {=} args
  * @return {field}
  */
