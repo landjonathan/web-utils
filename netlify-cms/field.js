@@ -3,7 +3,7 @@
  * @param {string} name Original string
  * @return {string} Original string with the first letter uppercased
  */
-const titleize = name => name.charAt(0).toUpperCase() + name.slice(1).replace(/([A-Z])/g, ' $1')
+const titleize = name => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ').replace(/([A-Z])/g, ' $1')
 
 /**
  * @typedef {'boolean'|'code'|'color'|'datetime'|'file'|'hidden'|'image'|'list'|'map'|'markdown'|'number'|'object'|'relation'|'select'|'string'|'text'} Widget
@@ -216,7 +216,7 @@ export const md = (name = 'text', args) => field(name, {
   widget: 'markdown',
   minimal: true,
   buttons: ['bold', 'italic', 'link', 'heading-three', 'heading-four', 'heading-five', 'heading-six', 'bulleted-list', 'numbered-list'],
-  editorComponents: [], ...args,
+  editor_components: [], ...args,
 })
 
 /**
@@ -227,8 +227,8 @@ export const md = (name = 'text', args) => field(name, {
  */
 export const date = (name = 'date', args) => field(name, {
   widget: 'datetime',
-  dateFormat: 'DD/MM/YYYY',
-  timeFormat: false,
+  date_format: 'DD/MM/YYYY',
+  time_format: false,
   format: 'x',
   ...args,
 })
@@ -329,16 +329,18 @@ export const settingsPage = (name, fields, args) => page(name, fields, {
  * @param {string} path
  * @param {string} subfolder
  * @param {string} slug
+ * @param {string=} label_singular
  * @param {any|FieldArgs} [args]
  * @return {PostType}
  */
-export const postType = (name, fields, { label, path = 'src/content', subfolder = '', slug = '{{slug}}', ...args } = {}) => ({
+export const postType = (name, fields, { label, path = 'src/content', subfolder = '', slug = '{{slug}}', label_singular, ...args } = {}) => ({
   name,
   folder: `${path}${subfolder || ''}/${name}`,
   label: label || titleize(name),
   fields,
   editor: { preview: false },
-  label_singular: (typeof args === 'undefined' || typeof args.label_singular === 'undefined') ? name.slice(0, -1) : args.label_singular,
+  label_singular: label_singular || name.slice(0, -1),
   create: true,
   slug,
+  ...args
 })
