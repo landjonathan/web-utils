@@ -284,6 +284,7 @@ export const url = (name, args) => field(name, {
 
 /**
  * @typedef Page
+ * @todo PageArgs, PostArgs
  */
 
 /**
@@ -294,7 +295,7 @@ export const url = (name, args) => field(name, {
  * @param {string} filename
  * @param {string} path
  * @param {string} folder
- * @param {string} extension
+ * @param {'yml'|'yaml'|'toml'|'json'|'md'|'markdown'|'html'} extension
  * @return {Page}
  */
 export const page = (name, fields, { label, filename, path = 'src/content/', folder = 'pages', extension = 'yml' } = {}) => ({
