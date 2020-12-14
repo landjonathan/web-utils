@@ -3,10 +3,13 @@ const hashScroll = ({
                       headerMarker = 'data-site-header',
                       alwaysUnsetHash = false,
                       useHeaderMarginBottom = false
-} = {}) => {
+                    } = {}) => {
   const $header = document.querySelector(`[${headerMarker}]`)
 
-  const scrollToTarget = (targetElement, setHash = true, ignoreHeader = false, directions = { top: true, bottom: true }) => {
+  const scrollToTarget = (targetElement, setHash = true, ignoreHeader = false, directions = {
+    top: true,
+    bottom: true
+  }) => {
     const headerOffset = ignoreHeader ? 0 : $header.clientHeight + (useHeaderMarginBottom ? parseFloat(getComputedStyle($header).marginBottom) : 0)
     const currentPosition = window.scrollY || window.pageYOffset
     const targetHeight = targetElement.getBoundingClientRect().top + currentPosition - headerOffset
@@ -45,7 +48,7 @@ const hashScroll = ({
 
   const handleHashLink = (hash, setHash, ignoreHeader) => {
     if (hash === '#') {
-      window.scrollTo({ behavior: "smooth", top: 0 })
+      window.scrollTo({ behavior: 'smooth', top: 0 })
     } else {
       const targetElement = document.querySelector(hash)
       if (targetElement)
@@ -54,13 +57,13 @@ const hashScroll = ({
         location.assign(`${location.protocol}//${location.hostname}/${hash}`) // go to hash on homepage
 
       const hashValue = hash.replace('#', '')
-      const $target = document.getElementById(hashValue);
+      const $target = document.getElementById(hashValue)
       handeAnchorToggle($target)
     }
   }
 
   const anchorLink = event => {
-    const el = event.target;
+    const el = event.target
     const linkEl = el.matches('a') ? el : el.closest('a')
     if (linkEl) {
       let href = linkEl.getAttribute('href')
@@ -69,7 +72,10 @@ const hashScroll = ({
       const setHash = !alwaysUnsetHash && !linkEl.hasAttribute('data-unset-hash')
       const ignoreHeader = linkEl.hasAttribute('data-ignore-header') || !document.querySelector(`[${headerMarker}]`)
       // if absolute link to hash on page, set hash only
-      if (href.indexOf('#') !== -1 && window.location.href.split('#')[0] === href.split('#')[0])
+      if (href.indexOf('#') !== -1 && (
+        window.location.href.split('#')[0] === href.split('#')[0]
+        || window.location.pathname === href.split('#')[0] // e.g. /#somehash
+      ))
         href = '#' + href.split('#')[1]
 
       if (href.indexOf('#') === 0) {
@@ -83,14 +89,14 @@ const hashScroll = ({
 
   // handle hash  URL on page load
   if (location.hash) {
-    const $target = document.getElementById(location.hash.replace('#', ''));
+    const $target = document.getElementById(location.hash.replace('#', ''))
     if (!$target) return false
 
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       scrollToTarget($target)
       handeAnchorToggle($target)
-    }, 1);
+    }, 1)
   }
 }
 
